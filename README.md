@@ -1,2 +1,12 @@
 # TodayAndHistory
 历史上的今天，可以查看制定任意一天，查看那一天在历史上有没有那么重大的时间发生，练手项目，api数据来自于聚合数据
+
+主要是Material Design的风格
+
+首页使用了SwiptoRefresh实现下拉刷新，使用recycleView承载数据的同时使用CardView进行数据单项的展示
+
+选择日期使用了DatePicker组件
+
+在事件详情页中使用了CoordinatorLayout+AppBarLayout+NestedScrollView+FloatingActionButton实现
+实现了顶部图片滑动时差效果
+Title与滑动手势的交互
