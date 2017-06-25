@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.beardedhen.androidbootstrap.TypefaceProvider;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -24,6 +25,14 @@ public class MyApplication extends Application {
          TypefaceProvider.registerDefaultIconSets();
          //初始化工具集
          Utils.init(this);
+         LogUtils.Builder builder = new LogUtils.Builder();
+         builder.setBorderSwitch(true);
+         builder.setLogSwitch(true);//是否输出
+         builder.setConsoleSwitch(true);
+         builder.setGlobalTag("生哥哥");
+         builder.setLogHeadSwitch(true);
+
+
         //初始化bugly
          Context context = getApplicationContext();
 // 获取当前包名

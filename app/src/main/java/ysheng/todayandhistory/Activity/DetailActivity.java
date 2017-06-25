@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 
@@ -55,8 +56,8 @@ public class DetailActivity extends AppCompatActivity {
     final static public String key = "3ceaad1dd59f61232e38691d22ad85f7";
     Context context;
     View rootView;
-    HistoryDetail h;
     LayoutInflater mInflater;
+    History h;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +78,34 @@ public class DetailActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         setSupportActionBar(mToolbar);
-        History h = (History) getIntent().getSerializableExtra(key);
+        h = (History) getIntent().getSerializableExtra(key);
         mToolbarLayout.setTitle(h == null ? "历史上今天" : h.getTitle());
         mTvTitle.setText(h == null ? "历史上今天" : h.getTitle());
         mTvDate.setText(h.getDate());
+
+        //更新阅读记录
+        AppDataUtils.getInstance().addOneReadedRecord(h);
+
+        //判断是否已收藏
+        if (AppDataUtils.getInstance().isColleted(h)) {
+            fab.setImageResource(R.mipmap.collet_on);
+        }
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //收藏动作
+                if (h != null && !AppDataUtils.getInstance().isColleted(h)) {
+                    fab.setImageResource(R.mipmap.collet_on);
+                    AppDataUtils.getInstance().colloetOneHistory(h);
+                    ToastUtils.showShortSafe("收藏成功");
+                } else {
+                    AppDataUtils.getInstance().removeOneColleted(h);
+                    fab.setImageResource(R.mipmap.collet_nor);
+                    ToastUtils.showShortSafe("取消收藏成功");
+                }
+            }
+        });
+
         getOneDetail(h);
     }
 
@@ -89,29 +114,11 @@ public class DetailActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    void showDetail(final HistoryDetail historyDetail, History history) {
-        h = historyDetail;
+    void showDetail(final HistoryDetail historyDetail, final History history) {
         mTvTitle.setText(historyDetail.getTitle());
         mTvDate.setText(history.getDate());
         mTvContent.setText(Html.fromHtml(historyDetail.getContent()));
-        if (AppDataUtils.getInstance().isColleted(historyDetail)) {
-            fab.setImageResource(R.mipmap.collet_on);
-        }
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //收藏动作
-                if (historyDetail != null && !AppDataUtils.getInstance().isColleted(historyDetail)) {
-                    fab.setImageResource(R.mipmap.collet_on);
-                    AppDataUtils.getInstance().colloetOneHistory(historyDetail);
-                    ToastUtils.showShortSafe("收藏成功");
-                } else {
-                    AppDataUtils.getInstance().removeOneColleted(historyDetail);
-                    fab.setImageResource(R.mipmap.collet_nor);
-                    ToastUtils.showShortSafe("取消收藏成功");
-                }
-            }
-        });
+        //添加照片
         for (int i = 0; i < historyDetail.getPicUrl().size(); i++) {
             if (i == 0) {
                 Glide.with(this).load(historyDetail.getPicUrl().get(0).getUrl()).fitCenter().into(mIvBg);
