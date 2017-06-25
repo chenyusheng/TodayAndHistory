@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
@@ -27,8 +28,8 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import ysheng.todayandhistory.R;
+import ysheng.todayandhistory.Util.AppDataUtils;
 import ysheng.todayandhistory.Util.Debug_AdLog;
-import ysheng.todayandhistory.Util.ToastUtils;
 import ysheng.todayandhistory.Util.Util_BasicJSON;
 import ysheng.todayandhistory.Util.Util_NetTool;
 import ysheng.todayandhistory.View.ZoomImageView;
@@ -50,10 +51,11 @@ public class DetailActivity extends AppCompatActivity {
     private TextView mTvDate;
     private TextView mTvContent;
     private LinearLayout mPicLayout;
-
+    FloatingActionButton fab;
     final static public String key = "3ceaad1dd59f61232e38691d22ad85f7";
     Context context;
     View rootView;
+    HistoryDetail h;
     LayoutInflater mInflater;
 
     @Override
@@ -72,13 +74,7 @@ public class DetailActivity extends AppCompatActivity {
         mTvDate = (TextView) findViewById(tv_date);
         mTvContent = (TextView) findViewById(tv_content);
         mPicLayout = (LinearLayout) findViewById(pic_layout);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         setSupportActionBar(mToolbar);
         History h = (History) getIntent().getSerializableExtra(key);
@@ -93,11 +89,29 @@ public class DetailActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    void showDetail(HistoryDetail historyDetail, History history) {
+    void showDetail(final HistoryDetail historyDetail, History history) {
+        h = historyDetail;
         mTvTitle.setText(historyDetail.getTitle());
         mTvDate.setText(history.getDate());
         mTvContent.setText(Html.fromHtml(historyDetail.getContent()));
-
+        if (AppDataUtils.getInstance().isColleted(historyDetail)) {
+            fab.setImageResource(R.mipmap.collet_on);
+        }
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //收藏动作
+                if (historyDetail != null && !AppDataUtils.getInstance().isColleted(historyDetail)) {
+                    fab.setImageResource(R.mipmap.collet_on);
+                    AppDataUtils.getInstance().colloetOneHistory(historyDetail);
+                    ToastUtils.showShortSafe("收藏成功");
+                } else {
+                    AppDataUtils.getInstance().removeOneColleted(historyDetail);
+                    fab.setImageResource(R.mipmap.collet_nor);
+                    ToastUtils.showShortSafe("取消收藏成功");
+                }
+            }
+        });
         for (int i = 0; i < historyDetail.getPicUrl().size(); i++) {
             if (i == 0) {
                 Glide.with(this).load(historyDetail.getPicUrl().get(0).getUrl()).fitCenter().into(mIvBg);
@@ -121,7 +135,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    void showBigPic(String url){
+    void showBigPic(String url) {
         View view = LayoutInflater.from(this).inflate(R.layout.layout_pic_detail, null, false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -177,7 +191,7 @@ public class DetailActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ToastUtils.showShort(context, "没有更详细的了");
+                                    ToastUtils.showShortSafe("没有更详细的了");
                                 }
                             });
                         }

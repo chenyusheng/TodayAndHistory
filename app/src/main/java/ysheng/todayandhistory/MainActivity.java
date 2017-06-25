@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -27,7 +29,6 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import ysheng.todayandhistory.Activity.DetailActivity;
 import ysheng.todayandhistory.Util.Debug_AdLog;
-import ysheng.todayandhistory.Util.ToastUtils;
 import ysheng.todayandhistory.Util.Util_BasicJSON;
 import ysheng.todayandhistory.Util.Util_NetTool;
 import ysheng.todayandhistory.adapter.ListAdapter_History;
@@ -153,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                                         refresh_layout.setRefreshing(false);
                                     }
                                     if(historyList.size()==0){
-                                        ToastUtils.showLong(context,"这一天并没有什么大事发生，请重新选择");
+                                        com.blankj.utilcode.util.ToastUtils.showLongSafe("这一天并没有什么大事发生，请重新选择");
                                         showDetail();
                                     }
                                     listAdapter_history.notifyDataSetChanged();

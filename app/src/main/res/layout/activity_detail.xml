@@ -46,7 +46,7 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.CollapsingToolbarLayout> 
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_detail" />
@@ -61,6 +61,6 @@
         app:fabSize="mini"
         android:scaleType="centerCrop"
         app:layout_anchorGravity="bottom"
-         android:src="@mipmap/back"/>
+         android:src="@mipmap/collet_nor"/>
 
 </android.support.design.widget.CoordinatorLayout>
