@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 
 import com.tencent.bugly.crashreport.CrashReport;
+import com.yarolegovich.slidingrootnav.SlidingRootNavBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
     View rootView;
     LayoutInflater mInflater;
     final static public String key = "3ceaad1dd59f61232e38691d22ad85f7";
-    int month,day,year;
+    int month, day, year;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,22 +59,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                ToastUtils.showShort(context, historyList.get(position).getTitle());
-                Intent mIntent = new Intent(context,DetailActivity.class);
+                Intent mIntent = new Intent(context, DetailActivity.class);
                 Bundle mBundle = new Bundle();
-                mBundle.putSerializable(key,historyList.get(position));
+                mBundle.putSerializable(key, historyList.get(position));
                 mIntent.putExtras(mBundle);
                 startActivity(mIntent);
             }
         });
 
+        new SlidingRootNavBuilder(this)
+                .withMenuOpened(false)
+                .withSavedState(savedInstanceState)
+                .withDragDistance(140) //Horizontal translation of a view. Default == 180dp
+                .withRootViewScale(0.7f) //Content view's scale will be interpolated between 1f and 0.7f. Default == 0.65f;
+                .withRootViewElevation(10) //Content view's elevation will be interpolated between 0 and 10dp. Default == 8.
+                .withRootViewYTranslation(4) //Content view's translationY will be interpolated between 0 and 4. Default == 0
+                .withMenuLayout(R.layout.layout_drawlayout)
+                .inject();
+
 
         refresh_layout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
-        refresh_layout.setColorSchemeColors(R.color.colorAccent,R.color.colorPrimary,R.color.colorPrimaryDark);
+        refresh_layout.setColorSchemeColors(getResources().getColor(R.color.colorAccent), getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorPrimaryDark));
         //        refresh_layout.setColorSchemeResources(R.color.colorAccent,R.color.colorPrimary,R.color.colorPrimaryDark);
         refresh_layout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getData(month,day);
+                getData(month, day);
             }
         });
         refresh_layout.setRefreshing(true);
@@ -89,17 +101,17 @@ public class MainActivity extends AppCompatActivity {
         list_layout.setAdapter(listAdapter_history);
 
         final Calendar c = Calendar.getInstance();
-        month= c.get(Calendar.MONTH);
+        month = c.get(Calendar.MONTH);
         year = c.get(Calendar.YEAR);
-        day =  c.get(Calendar.DAY_OF_MONTH);
+        day = c.get(Calendar.DAY_OF_MONTH);
 
         getData(month, day);
     }
 
-    void showDetail(){
+    void showDetail() {
         View view = LayoutInflater.from(this).inflate(R.layout.layout_history_detail, null, false);
         final DatePicker pick_date = (DatePicker) view.findViewById(R.id.pick_date);
-        pick_date.init(year,month,day,null);
+        pick_date.init(year, month, day, null);
         Button btn_ok = (Button) view.findViewById(R.id.btn_ok);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(view);
@@ -112,21 +124,21 @@ public class MainActivity extends AppCompatActivity {
                 alertDialog.dismiss();
                 month = pick_date.getMonth();
                 day = pick_date.getDayOfMonth();
-                getData(month,day);
+                getData(month, day);
             }
         });
         alertDialog.show();
     }
 
-    void getData(int month ,int day) {
+    void getData(int month, int day) {
         try {
-            if(historyList!=null&&historyList.size()>0){
+            if (historyList != null && historyList.size() > 0) {
                 list_layout.smoothScrollToPosition(0);
             }
 //            if (!refresh_layout.isRefreshing()) {
 //                refresh_layout.setRefreshing(true);
 //            }
-            Util_NetTool.getNet(String.format("http://v.juhe.cn/todayOnhistory/queryEvent.php?date=%d/%d&key=%s", month+1, day, key), new Callback() {
+            Util_NetTool.getNet(String.format("http://v.juhe.cn/todayOnhistory/queryEvent.php?date=%d/%d&key=%s", month + 1, day, key), new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
 
@@ -153,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (refresh_layout.isRefreshing()) {
                                         refresh_layout.setRefreshing(false);
                                     }
-                                    if(historyList.size()==0){
+                                    if (historyList.size() == 0) {
                                         com.blankj.utilcode.util.ToastUtils.showLongSafe("这一天并没有什么大事发生，请重新选择");
                                         showDetail();
                                     }

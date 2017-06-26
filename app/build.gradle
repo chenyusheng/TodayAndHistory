@@ -62,4 +62,6 @@ dependencies {
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     //一个侧滑栏 文档：https://github.com/yarolegovich/SlidingRootNav
     compile 'com.yarolegovich:sliding-root-nav:1.0.2'
+    //圆形的图片
+    compile 'com.makeramen:roundedimageview:2.3.0'
 }

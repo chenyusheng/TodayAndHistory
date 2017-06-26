@@ -1,14 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/white">
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@color/bisque"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"/>
-    
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:orientation="vertical">
+
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/icon_header"
+            app:riv_border_color="@color/bisque"
+            app:riv_border_width="2dip"
+            app:riv_mutate_background="true"
+            app:riv_oval="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center_horizontal"
+            android:text="每一天都是不同的历史"
+            android:textColor="#999"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#dedede" />
+
+        <TextView
+            android:id="@+id/btn_my_collet"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="15dp"
+            android:text="我的收藏"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#dedede" />
+
+        <TextView
+            android:id="@+id/btn_my_record"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="15dp"
+            android:text="阅读历史"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#dedede" />
+
+        <TextView
+            android:id="@+id/btn_check_update"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="15dp"
+            android:text="检查更新"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#dedede" />
+
+        <TextView
+            android:id="@+id/btn_about_us"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="15dp"
+            android:text="关于我们"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#dedede" />
+    </LinearLayout>
 </LinearLayout>
