@@ -95,8 +95,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-        <activity android:name=".Activity.Activity_AboutUs" />
         <activity android:name=".Activity.BaseActivity"></activity>
     </application>
 

@@ -1,6 +1,8 @@
 # TodayAndHistory
 历史上的今天，可以查看制定任意一天，查看那一天在历史上有没有那么重大的时间发生，练手项目，api数据来自于聚合数据
 
+下载链接: http://fir.im/3n7j
+
 主要是Material Design的风格
 
 首页使用了SwiptoRefresh实现下拉刷新，使用recycleView承载数据的同时使用CardView进行数据单项的展示
