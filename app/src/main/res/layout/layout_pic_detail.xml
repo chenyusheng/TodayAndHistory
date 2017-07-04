@@ -2,19 +2,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#60000000">
-    <ysheng.todayandhistory.View.ZoomImageView
+    android:background="#60333333">
+    <!--<ysheng.todayandhistory.View.ZoomImageView-->
+    <!--android:id="@+id/iv_pic"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:background="@color/black_overlay"-->
+    <!--android:scaleType="centerCrop"/>-->
+    <com.wingsofts.dragphotoview.DragPhotoView
         android:id="@+id/iv_pic"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:background="@color/black_overlay"
-        android:scaleType="centerCrop"/>
+        android:scaleType="fitCenter" />
+
     <ImageView
         android:id="@+id/btn_back"
         android:layout_width="50dp"
-        android:src="@mipmap/back3"
         android:layout_height="50dp"
-        android:visibility="visible"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:src="@mipmap/back3"
+        android:visibility="gone" />
 </RelativeLayout>

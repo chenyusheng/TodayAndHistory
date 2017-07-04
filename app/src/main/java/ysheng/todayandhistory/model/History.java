@@ -19,12 +19,13 @@ public class History implements Serializable {
      * e_id : 1
      */
 
-    private String day;
+    private final static long serialVersionUID = 1L;
     private String date;
+    private String day;
     private String title;
     private String e_id;
 
-    public History (String json) {
+    public History(String json) {
         this(Util_BasicJSON.toJsonObject(json));
     }
 

@@ -19,12 +19,14 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.wingsofts.dragphotoview.DragPhotoView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
+import de.greenrobot.event.EventBus;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -43,7 +45,7 @@ import static ysheng.todayandhistory.R.id.tv_date;
 import static ysheng.todayandhistory.R.id.tv_title;
 
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends BaseActivity {
     private AppBarLayout mAppBar;
     private CollapsingToolbarLayout mToolbarLayout;
     private ImageView mIvBg;
@@ -101,6 +103,7 @@ public class DetailActivity extends AppCompatActivity {
                 } else {
                     AppDataUtils.getInstance().removeOneColleted(h);
                     fab.setImageResource(R.mipmap.collet_nor);
+                    EventBus.getDefault().post("removeCollet");
                     ToastUtils.showShortSafe("取消收藏成功");
                 }
             }
@@ -146,7 +149,8 @@ public class DetailActivity extends AppCompatActivity {
         View view = LayoutInflater.from(this).inflate(R.layout.layout_pic_detail, null, false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        ZoomImageView photoView = (ZoomImageView) view.findViewById(R.id.iv_pic);
+        DragPhotoView photoView = (DragPhotoView) view.findViewById(R.id.iv_pic);
+
         Glide.with(this).load(url).fitCenter().into(photoView);
         builder.setView(view);
         builder.setCancelable(true);
@@ -160,6 +164,25 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                popWindow.dismiss();
                 alertDialog.dismiss();
+                dialog.dismiss();
+            }
+        });
+        photoView.setOnExitListener(new DragPhotoView.OnExitListener() {
+            @Override
+            public void onExit(DragPhotoView dragPhotoView, float v, float v1, float v2, float v3) {
+                dialog.dismiss();
+            }
+        });
+        photoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtils.e("onCLick");
+            }
+        });
+        photoView.setOnTapListener(new DragPhotoView.OnTapListener() {
+            @Override
+            public void onTap(DragPhotoView dragPhotoView) {
+                LogUtils.e("onTap");
                 dialog.dismiss();
             }
         });

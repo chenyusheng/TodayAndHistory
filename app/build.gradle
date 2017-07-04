@@ -64,4 +64,8 @@ dependencies {
     compile 'com.yarolegovich:sliding-root-nav:1.0.2'
     //圆形的图片
     compile 'com.makeramen:roundedimageview:2.3.0'
+    //一个拖动返回的库 http://androidwing.net/index.php/163
+    compile 'com.github.githubwing:DragPhotoView:1.0.2'
+    //一个滑动返回上一界面的库 https://github.com/bingoogolapple/BGASwipeBackLayout-Android
+    compile 'cn.bingoogolapple:bga-swipebacklayout:1.0.8'
 }

@@ -44,6 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="left|center_vertical"
+            android:background="@drawable/btn_bg"
             android:paddingLeft="15dp"
             android:text="我的收藏"
             android:textSize="14sp" />
@@ -60,6 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="left|center_vertical"
+            android:background="@drawable/btn_bg"
             android:paddingLeft="15dp"
             android:text="阅读历史"
             android:textSize="14sp" />
@@ -76,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="left|center_vertical"
+            android:background="@drawable/btn_bg"
             android:paddingLeft="15dp"
             android:text="检查更新"
             android:textSize="14sp" />
@@ -92,6 +95,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="left|center_vertical"
+            android:background="@drawable/btn_bg"
             android:paddingLeft="15dp"
             android:text="关于我们"
             android:textSize="14sp" />

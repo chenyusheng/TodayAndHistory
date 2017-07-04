@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import ysheng.todayandhistory.model.History;
@@ -22,7 +24,7 @@ public class AppDataUtils {
 
     CacheUtils cacheUtils = CacheUtils.getInstance();//缓存工具
     List<History> historyDetailList;
-    HashMap<String, History> readedMap;
+    LinkedHashMap<String, History> readedMap;
 
     private AppDataUtils() {
 //        throw new UnsupportedOperationException("cannot be instantiated");
@@ -35,25 +37,34 @@ public class AppDataUtils {
         return instance;
     }
 
-    //阅读记录 使用hashmap可以避免重复记录
-    public HashMap<String, History> getReadedMap() {
+    //阅读记录 使用map可以避免重复记录,使用linkhashmap可以保持数据的顺序，同时效率比hashmap高
+    public LinkedHashMap<String, History> getReadedMap() {
         if (readedMap == null) {
-            readedMap = (HashMap<String, History>) cacheUtils.getSerializable("ReadedColletedMap", new HashMap<String, History>());
+            readedMap = (LinkedHashMap<String, History>) cacheUtils.getSerializable("ReadedColletedLinkedHashMap", new LinkedHashMap<String, History>());
         }
         return readedMap;
     }
 
     public void addOneReadedRecord(History h) {
         if (getReadedMap() != null) {
+            LogUtils.e("添加阅读记录：" + h.getTitle());
+            if (readedMap.containsKey(h.getE_id())) {
+                LogUtils.e("已经有记录，删除");
+                readedMap.remove(h.getE_id());
+            }
             readedMap.put(h.getE_id(), h);
-            cacheUtils.put("ReadedColletedMap", readedMap);//保存缓存
+            cacheUtils.put("ReadedColletedLinkedHashMap", readedMap);//保存缓存
         }
     }
 
     public ArrayList<History> getAllReadedMap2List() {
         ArrayList<History> historys = new ArrayList<>();
         if (getReadedMap() != null) {
-            historys.addAll(readedMap.values());
+            Iterator<History> i = readedMap.values().iterator();
+            while (i.hasNext()) {
+                historys.add(0, i.next());
+            }
+//            historys.addAll(readedMap.values());
         }
         return historys;
     }
@@ -71,7 +82,7 @@ public class AppDataUtils {
         if (getHistoryDetailList() == null) {
             historyDetailList = new ArrayList<History>();
         }
-        historyDetailList.add(historyDetail);
+        historyDetailList.add(0,historyDetail);
         cacheUtils.put("HistoryColleted2", (Serializable) historyDetailList);//保存缓存
     }
 

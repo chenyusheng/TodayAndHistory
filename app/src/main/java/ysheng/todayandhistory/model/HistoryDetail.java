@@ -27,7 +27,7 @@ public class HistoryDetail implements Serializable {
      * picNo : 2
      * picUrl : [{"pic_title":"孙中山手绘的国民党党徽","id":1,"url":"http://images.juheapi.com/history/11527_1.jpg"},{"pic_title":"中国国民党总务主任居正","id":2,"url":"http://images.juheapi.com/history/11527_2.jpg"}]
      */
-
+    private final static long serialVersionUID = 2L;
     private String e_id;
     private String title;
     private String content;
